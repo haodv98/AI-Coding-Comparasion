@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Coding Tools 2026 — Đánh giá thực tế từ cộng đồng</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --bg4: #1c1c28;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e8f0;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+    --cc: #7c5cfc;
+    --cc2: #9b7eff;
+    --gem: #4285f4;
+    --gem2: #6ba3ff;
+    --cur: #00d4ff;
+    --cur2: #4de4ff;
+    --cdx: #10a37f;
+    --cdx2: #1ed6a7;
+    --gpt: #f5a623;
+    --gpt2: #ffca6b;
+    --good: #10d48e;
+    --warn: #f5a623;
+    --bad: #ff5c5c;
+    --radius: 12px;
+    --radius-lg: 18px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 64px 0 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,252,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cc2); background: rgba(124,92,252,0.12); border: 1px solid rgba(124,92,252,0.25);
+    padding: 5px 14px; border-radius: 99px; margin-bottom: 20px;
+  }
+  .header h1 {
+    font-size: clamp(28px, 5vw, 52px); font-weight: 700; letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 40%, var(--cc2) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+  .header p {
+    font-size: 16px; color: var(--text2); max-width: 600px; margin: 0 auto 32px;
+  }
+  .header-stats {
+    display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-val { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+  .stat-lbl { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; }
+  .section-hd {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+  }
+  .section-hd-line {
+    flex: 1; height: 1px; background: var(--border);
+  }
+  .section-hd h2 {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text3); white-space: nowrap;
+  }
+
+  /* ── TOOL TABS ── */
+  .tool-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px;
+  }
+  .tool-tab {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 99px;
+    border: 1px solid var(--border); background: var(--bg3);
+    font-size: 13px; font-weight: 500; color: var(--text2);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .tool-tab:hover { border-color: var(--border2); color: var(--text); }
+  .tool-tab.active { color: #fff; }
+  .tool-tab .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── SCORE TABLE ── */
+  .score-table-wrap { overflow-x: auto; }
+  .score-table {
+    width: 100%; border-collapse: collapse; min-width: 760px;
+  }
+  .score-table th {
+    padding: 12px 16px; text-align: center;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--text3); border-bottom: 1px solid var(--border);
+  }
+  .score-table th:first-child { text-align: left; width: 220px; }
+  .score-table td {
+    padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.03);
+    vertical-align: middle;
+  }
+  .score-table td:first-child {
+    font-size: 13px; color: var(--text2);
+  }
+  .score-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .score-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .score-num { font-size: 13px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+  .score-bar-bg { width: 40px; height: 3px; background: rgba(255,255,255,0.07); border-radius: 99px; }
+  .score-bar { height: 3px; border-radius: 99px; }
+
+  /* ── SWOT GRID ── */
+  .swot-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+  }
+  .swot-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .swot-card:hover { border-color: var(--border2); }
+  .swot-tool-name {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 16px;
+  }
+  .swot-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .swot-section { margin-bottom: 12px; }
+  .swot-lbl {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .swot-lbl.pros { color: var(--good); }
+  .swot-lbl.cons { color: var(--bad); }
+  .swot-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .swot-item {
+    display: flex; gap: 6px; font-size: 11px; line-height: 1.5; color: var(--text2);
+  }
+  .swot-item::before { flex-shrink: 0; font-size: 10px; margin-top: 1px; }
+  .swot-item.pro::before { content: '✓'; color: var(--good); }
+  .swot-item.con::before { content: '✗'; color: var(--bad); }
+
+  /* ── PROJECT FIT ── */
+  .fit-table-wrap { overflow-x: auto; }
+  .fit-table { width: 100%; border-collapse: collapse; min-width: 700px; }
+  .fit-table th {
+    padding: 10px 16px; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--text3); text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .fit-table th:first-child { text-align: left; }
+  .fit-table td {
+    padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.03);
+    text-align: center; vertical-align: middle;
+  }
+  .fit-table td:first-child { text-align: left; font-size: 13px; color: var(--text2); }
+  .fit-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .pill {
+    display: inline-block; padding: 3px 10px; border-radius: 99px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.03em; white-space: nowrap;
+  }
+  .pill-best { background: rgba(16,212,142,0.12); color: var(--good); border: 1px solid rgba(16,212,142,0.2); }
+  .pill-good { background: rgba(66,133,244,0.12); color: var(--gem2); border: 1px solid rgba(66,133,244,0.2); }
+  .pill-ok { background: rgba(245,166,35,0.12); color: var(--gpt2); border: 1px solid rgba(245,166,35,0.2); }
+  .pill-poor { background: rgba(255,92,92,0.12); color: #ff8080; border: 1px solid rgba(255,92,92,0.2); }
+  .pill-na { background: rgba(255,255,255,0.04); color: var(--text3); border: 1px solid var(--border); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px;
+  }
+  .tcard {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px 22px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .tcard:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .tcard-header {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px;
+  }
+  .tcard-author { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; flex-shrink: 0;
+  }
+  .author-info { display: flex; flex-direction: column; gap: 2px; }
+  .author-name { font-size: 13px; font-weight: 600; color: #fff; }
+  .author-meta { font-size: 11px; color: var(--text3); }
+  .source-badge {
+    display: flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 99px;
+    font-size: 10px; font-weight: 600; flex-shrink: 0;
+  }
+  .src-reddit { background: rgba(255,69,0,0.12); color: #ff8060; border: 1px solid rgba(255,69,0,0.2); }
+  .src-hn { background: rgba(255,102,0,0.12); color: #ff9950; border: 1px solid rgba(255,102,0,0.2); }
+  .src-x { background: rgba(255,255,255,0.06); color: var(--text2); border: 1px solid var(--border2); }
+  .src-medium { background: rgba(255,255,255,0.06); color: #80d080; border: 1px solid rgba(128,208,128,0.2); }
+  .src-github { background: rgba(255,255,255,0.06); color: #a0a0ff; border: 1px solid rgba(160,160,255,0.2); }
+  .src-survey { background: rgba(124,92,252,0.12); color: var(--cc2); border: 1px solid rgba(124,92,252,0.2); }
+  .tcard-quote {
+    font-size: 13px; color: var(--text2); line-height: 1.65;
+    border-left: 2px solid; padding-left: 14px; margin-bottom: 14px;
+    font-style: italic;
+  }
+  .tcard-footer { display: flex; align-items: center; justify-content: space-between; }
+  .tcard-tool {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600; padding: 3px 10px;
+    border-radius: 99px; border: 1px solid;
+  }
+  .tcard-tool-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .tcard-sentiment {
+    font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 99px;
+  }
+  .sent-pos { background: rgba(16,212,142,0.1); color: var(--good); }
+  .sent-neg { background: rgba(255,92,92,0.1); color: #ff8080; }
+  .sent-mix { background: rgba(245,166,35,0.1); color: var(--gpt2); }
+  .upvotes { font-size: 11px; color: var(--text3); display: flex; align-items: center; gap: 4px; }
+
+  /* ── USE CASES ── */
+  .uc-list { display: flex; flex-direction: column; gap: 16px; }
+  .uc-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden;
+  }
+  .uc-head {
+    padding: 16px 22px; display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.015);
+  }
+  .uc-num {
+    font-size: 10px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+    color: var(--text3); background: var(--bg4); padding: 2px 8px; border-radius: 6px;
+  }
+  .uc-title { font-size: 14px; font-weight: 600; color: #fff; flex: 1; }
+  .uc-source a {
+    font-size: 11px; color: var(--text3); text-decoration: none;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .uc-source a:hover { color: var(--text2); }
+  .uc-body {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+  }
+  .uc-col {
+    padding: 18px 22px; border-right: 1px solid var(--border);
+  }
+  .uc-col:last-child { border-right: none; }
+  .uc-col-title {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .col-result .uc-col-title { color: var(--good); }
+  .col-issue .uc-col-title { color: var(--bad); }
+  .col-fix .uc-col-title { color: var(--gem2); }
+  .uc-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .uc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .tag {
+    font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 500;
+    background: rgba(255,255,255,0.05); color: var(--text3); border: 1px solid var(--border);
+  }
+  .tag-ok { background: rgba(16,212,142,0.08); color: #60d490; border-color: rgba(16,212,142,0.15); }
+  .tag-warn { background: rgba(245,166,35,0.08); color: #ffc060; border-color: rgba(245,166,35,0.15); }
+  .tag-bad { background: rgba(255,92,92,0.08); color: #ff8080; border-color: rgba(255,92,92,0.15); }
+
+  /* ── COMBOS ── */
+  .combo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .combo-card {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 22px;
+    transition: border-color 0.2s;
+  }
+  .combo-card:hover { border-color: var(--border2); }
+  .combo-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 14px; }
+  .combo-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-bottom: 12px; }
+  .combo-chip {
+    font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 99px;
+  }
+  .combo-arr { font-size: 12px; color: var(--text3); }
+  .combo-note { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+  /* ── BENCHMARK BADGES ── */
+  .bench-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+  .bench-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 99px; padding: 6px 14px; font-size: 12px;
+  }
+  .bench-val { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .bench-lbl { color: var(--text3); }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .filter-btn {
+    padding: 6px 14px; border-radius: 99px; border: 1px solid var(--border);
+    background: transparent; color: var(--text3); font-size: 12px; font-weight: 500;
+    cursor: pointer; font-family: 'Sora', sans-serif; transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--border2); color: var(--text2); }
+  .filter-btn.active { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); }
+
+  /* ── FOOTER NOTE ── */
+  .footer-note {
+    padding: 32px 0 64px; text-align: center;
+  }
+  .footer-note p {
+    font-size: 12px; color: var(--text3); line-height: 1.8; max-width: 700px; margin: 0 auto;
+  }
+  .footer-note a { color: var(--text2); text-decoration: none; }
+  .footer-note a:hover { color: var(--text); }
+
+  /* responsive */
+  @media (max-width: 900px) {
+    .swot-grid { grid-template-columns: 1fr 1fr; }
+    .uc-body { grid-template-columns: 1fr; }
+    .uc-col { border-right: none; border-bottom: 1px solid var(--border); }
+    .uc-col:last-child { border-bottom: none; }
+    .combo-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .swot-grid { grid-template-columns: 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .header-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="container">
+    <div class="header-eyebrow">
+      <span>●</span> Research dựa trên đánh giá thực tế từ cộng đồng — May 2026
+    </div>
+    <h1>AI Coding Tools 2026</h1>
+    <p>Đánh giá khách quan từ Reddit, Hacker News, X/Twitter, GitHub Issues, survey developer — không phải marketing.</p>
+    <div class="header-stats">
+      <div class="stat"><div class="stat-val">500+</div><div class="stat-lbl">Reddit comments phân tích</div></div>
+      <div class="stat"><div class="stat-val">85%</div><div class="stat-lbl">Developer dùng AI tools (2025)</div></div>
+      <div class="stat"><div class="stat-val">70%</div><div class="stat-lbl">Ưu tiên Claude cho coding</div></div>
+      <div class="stat"><div class="stat-val">5</div><div class="stat-lbl">Tools so sánh chi tiết</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- BENCHMARKS -->
+  <section>
+    <div class="section-hd">
+      <h2>Benchmark (2026)</h2>
+      <div class="section-hd-line"></div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-badge"><span class="bench-val" style="color:#9b7eff">80.8%</span><span class="bench-lbl">Claude Opus 4.6 — SWE-bench Verified</span></div>
+      <div class="bench-badge"><span class="bench-val" style="color:#ffca6b">74.9%</span><span class="bench-lbl">GPT-5.4 / Codex — SWE-bench</span></div>
+      <div class="bench-badge"><span class="bench-val" style="color:#6ba3ff">63.8%</span><span class="bench-lbl">Gemini 3 Pro — SWE-bench</span></div>
+      <div class="bench-badge"><span class="bench-val" style="color:#e8e8f0">~95%</span><span class="bench-lbl">Claude functional accuracy</span></div>
+      <div class="bench-badge"><span class="bench-val" style="color:#ffca6b">~85%</span><span class="bench-lbl">ChatGPT functional accuracy</span></div>
+      <div class="bench-badge"><span class="bench-val" style="color:#9b7eff">70%</span><span class="bench-lbl">Dev survey — ưu tiên Claude cho coding</span></div>
+    </div>
+    <p style="font-size:11px;color:var(--text3)">Nguồn: <a href="https://tech-insider.org/claude-vs-chatgpt-2026/" style="color:var(--text3);text-decoration:none">tech-insider.org</a> · <a href="https://www.nxcode.io/resources/news/claude-vs-chatgpt-2026-which-ai-to-use" style="color:var(--text3);text-decoration:none">nxcode.io</a> · <a href="https://gurusup.com/blog/ai-comparisons" style="color:var(--text3);text-decoration:none">gurusup.com</a> · Stack Overflow Developer Survey 2025</p>
+  </section>
+
+  <!-- SCORE TABLE -->
+  <section>
+    <div class="section-hd">
+      <h2>Điểm đánh giá theo tác vụ (/10)</h2>
+      <div class="section-hd-line"></div>
+    </div>
+    <div class="score-table-wrap">
+      <table class="score-table" id="scoreTable">
+        <thead>
+          <tr>
+            <th>Tác vụ</th>
+            <th style="color:#9b7eff">Claude Code</th>
+            <th style="color:#6ba3ff">Gemini</th>
+            <th style="color:#4de4ff">Cursor</th>
+            <th style="color:#1ed6a7">Codex</th>
+            <th style="color:#ffca6b">ChatGPT</th>
+          </tr>
+        </thead>
+        <tbody id="scoreBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SWOT -->
+  <section>
+    <div class="section-hd">
+      <h2>Điểm mạnh / Điểm yếu từng tool</h2>
+      <div class="section-hd-line"></div>
+    </div>
+    <div class="swot-grid" id="swotGrid"></div>
+  </section>
+
+  <!-- PROJECT FIT -->
+  <section>
+    <div class="section-hd">
+      <h2>Phù hợp theo loại dự án</h2>
+      <div class="section-hd-line"></div>
+    </div>
+    <div class="fit-table-wrap">
+      <table class="fit-table" id="fitTable">
+        <thead>
+          <tr>
+            <th>Loại dự án</th>
+            <th style="color:#9b7eff">Claude Code</th>
+            <th style="color:#6ba3ff">Gemini</th>
+            <th style="color:#4de4ff">Cursor</th>
+            <th style="color:#1ed6a7">Codex</th>
+            <th style="color:#ffca6b">ChatGPT</th>
+          </tr>
+        </thead>
+        <tbody id="fitBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="section-hd">
+      <h2>Đánh giá thực tế — Reddit · Hacker News · X · GitHub · Survey</h2>
+      <div class="section-hd-line"></div>
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">Tất cả</button>
+      <button class="filter-btn" data-filter="cc">Claude Code</button>
+      <button class="filter-btn" data-filter="gem">Gemini</button>
+      <button class="filter-btn" data-filter="cur">Cursor</button>
+      <button class="filter-btn" data-filter="cdx">Codex</button>
+      <button class="filter-btn" data-filter="gpt">ChatGPT</button>
+    </div>
+    <div class="testimonials-grid" id="testimonialGrid"></div>
+  </section>
+
+  <!-- USE CASES -->
+  <section>
+    <div class="section-hd">
+      <h2>Use cases thực tế</h2>
+      <div class="section-hd-line"></div>
+    </div>
+    <div class="uc-list" id="ucList"></div>
+  </section>
+
+  <!-- OPTIMAL COMBOS -->
+  <section>
+    <div class="section-hd">
+      <h2>Phương án workflow tối ưu</h2>
+      <div class="section-hd-line"></div>
+    </div>
+    <div class="combo-grid" id="comboGrid"></div>
+  </section>
+
+  <div class="footer-note">
+    <p>
+      Dữ liệu tổng hợp từ: <a href="https://www.aitooldiscovery.com/guides/claude-code-reddit">r/ClaudeCode (500+ comments)</a> ·
+      <a href="https://aitoolanalysis.com/cursor-ai-review/">Cursor AI Review 2026</a> ·
+      <a href="https://dev.to/evan-dong/google-gemini-clis-rate-limiting-crisis-when-paying-customers-get-the-same-treatment-as-free-users-2bc0">Gemini Rate Limit Crisis</a> ·
+      <a href="https://www.faros.ai/blog/best-ai-model-for-coding-2026">faros.ai Developer Survey</a> ·
+      <a href="https://www.builder.io/blog/codex-vs-claude-code">builder.io Codex vs Claude</a> ·
+      <a href="https://blink.new/blog/cursor-vs-claude-code">blink.new Cursor vs Claude</a> ·
+      <a href="https://render.com/blog/ai-coding-agents-benchmark">render.com benchmark</a> ·
+      <a href="https://www.datacamp.com/blog/gemini-cli-vs-claude-code">DataCamp Gemini vs Claude</a>
+      <br>Cập nhật: May 2026 · Mọi quote được trích dẫn nguyên văn từ cộng đồng.
+    </p>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+const COLORS = { cc:'#7c5cfc', gem:'#4285f4', cur:'#00d4ff', cdx:'#10a37f', gpt:'#f5a623' };
+const NAMES  = { cc:'Claude Code', gem:'Gemini', cur:'Cursor', cdx:'Codex', gpt:'ChatGPT' };
+
+/* ── SCORE DATA ── */
+const TASKS = [
+  { label:'Code quality — production grade',    scores:[9.5,7.0,8.0,8.5,7.5] },
+  { label:'Multi-file / large codebase',         scores:[9.5,9.0,8.0,7.0,7.0] },
+  { label:'Agentic / autonomous execution',      scores:[9.5,7.5,7.5,7.5,6.5] },
+  { label:'Front-end / UI generation',           scores:[7.5,9.0,7.0,6.0,7.0] },
+  { label:'Back-end / API / Database',           scores:[9.5,7.5,8.5,8.5,7.5] },
+  { label:'Reasoning & architecture planning',   scores:[9.5,8.5,7.0,8.0,8.0] },
+  { label:'Code review & refactoring',           scores:[9.0,8.0,8.0,9.0,7.5] },
+  { label:'Test & CI generation',                scores:[8.5,7.5,8.0,7.5,8.5] },
+  { label:'Google Cloud / GCP workflows',        scores:[6.0,9.5,6.0,5.0,5.0] },
+  { label:'GitHub integration',                  scores:[8.0,6.5,8.0,9.0,7.0] },
+  { label:'IDE / DX experience',                 scores:[8.0,7.0,9.5,7.5,7.0] },
+  { label:'Rate-limit / quota thân thiện',       scores:[5.0,6.5,9.0,5.5,7.5] },
+  { label:'Giá trị so với chi phí tháng',        scores:[6.0,8.5,8.0,8.0,8.5] },
+];
+
+const scoreBody = document.getElementById('scoreBody');
+TASKS.forEach(t => {
+  const tr = document.createElement('tr');
+  const tools = ['cc','gem','cur','cdx','gpt'];
+  let html = `<td>${t.label}</td>`;
+  t.scores.forEach((s,i) => {
+    const c = COLORS[tools[i]];
+    html += `<td><div class="score-cell">
+      <span class="score-num" style="color:${c}">${s}</span>
+      <div class="score-bar-bg"><div class="score-bar" style="width:${s*10}%;background:${c}"></div></div>
+    </div></td>`;
+  });
+  tr.innerHTML = html;
+  scoreBody.appendChild(tr);
+});
+
+/* ── SWOT DATA ── */
+const SWOT = [
+  { id:'cc',
+    pros:['#1 SWE-bench 2026 (80.8%)','Tốt nhất multi-file & monorepo','Agentic / autonomous mạnh nhất','CLAUDE.md rules & hooks linh hoạt','Plan-first → an toàn cho production'],
+    cons:['Hit limit 5h window + weekly cap','CLI-heavy, không có visual diff','Front-end UI mapping chưa mạnh','Subscription riêng, không bundle','Opus 4.6 chỉ ở Max plan $100+'] },
+  { id:'gem',
+    pros:['Context 1M token — lớn nhất','UI/HTML → React generation mạnh','GCP/Firebase native integration','Free tier 1000 req/ngày','Multimodal: ảnh, PDF, audio'],
+    cons:['Rate limit crisis (March 2026)','Hay "lazy" với multi-step task','Paying users = free users về limit','Giảm free quota 50-80% (Dec 2025)','Billing phức tạp, unpredictable'] },
+  { id:'cur',
+    pros:['UX tốt nhất — visual diff inline','RAG codebase hiểu project context','Không hit limit (Auto model)','Hỗ trợ Claude, GPT, Gemini','Background Agents (async coding)'],
+    cons:['Front-end mapping còn yếu','CVE-2025-54135/54136 — RCE vuln','Credit pricing opaque (scandal 6/2025)','Cursor 2.1 corrupted chat histories','Mandatory telemetry không tắt được'] },
+  { id:'cdx',
+    pros:['GitHub integration chặt nhất','Sandbox kernel-level an toàn','Reasoning control: low→xhigh','Bundle ChatGPT Plus — tiết kiệm','Tốt cho cautious large-repo refactor'],
+    cons:['$20 plan cạn trong 2 session','UX CLI còn primitive','1M context chỉ ở $200/tháng','Front-end yếu hơn đối thủ','Completion rate thấp hơn Claude'] },
+  { id:'gpt',
+    pros:['Ecosystem lớn nhất (81% dev dùng)','Canvas tốt cho prototype nhỏ','Image gen native (GPT Image 2)','Voice mode tiên tiến','Plugin/GPT Store phong phú'],
+    cons:['Functional accuracy ~85% (vs 95%)','Không phù hợp production agentic','Context 128K thấp hơn đối thủ','Multi-file tracking yếu hơn Claude','Sam Altman gọi Codex tốt hơn GPT Chat'] },
+];
+const swotGrid = document.getElementById('swotGrid');
+SWOT.forEach(t => {
+  const card = document.createElement('div');
+  card.className = 'swot-card';
+  card.innerHTML = `
+    <div class="swot-tool-name">
+      <div class="swot-dot" style="background:${COLORS[t.id]}"></div>
+      ${NAMES[t.id]}
+    </div>
+    <div class="swot-section">
+      <div class="swot-lbl pros">Điểm mạnh</div>
+      <ul class="swot-list">${t.pros.map(p=>`<li class="swot-item pro">${p}</li>`).join('')}</ul>
+    </div>
+    <div class="swot-section">
+      <div class="swot-lbl cons">Điểm yếu</div>
+      <ul class="swot-list">${t.cons.map(c=>`<li class="swot-item con">${c}</li>`).join('')}</ul>
+    </div>`;
+  swotGrid.appendChild(card);
+});
+
+/* ── PROJECT FIT ── */
+const FIT_ROWS = [
+  { label:'Prototype nhanh',    data:[['best','Tốt nhất'],['good','Tốt'],['good','Tốt'],['ok','Khá'],['good','Tốt']] },
+  { label:'MVP',                data:[['best','Tốt nhất'],['ok','Khá'],['best','Tốt nhất'],['ok','Khá'],['good','Tốt']] },
+  { label:'Demo / Pitch',       data:[['good','Tốt'],['best','Tốt nhất'],['good','Tốt'],['ok','Khá'],['good','Tốt']] },
+  { label:'Release Candidate',  data:[['best','Tốt nhất'],['ok','Khá'],['good','Tốt'],['good','Tốt'],['ok','Khá']] },
+  { label:'Production',         data:[['best','Tốt nhất'],['ok','Khá'],['good','Tốt'],['good','Tốt'],['poor','Yếu']] },
+  { label:'Maintenance',        data:[['best','Tốt nhất'],['na','Hạn chế'],['good','Tốt'],['good','Tốt'],['poor','Yếu']] },
+];
+const fitBody = document.getElementById('fitBody');
+FIT_ROWS.forEach(row => {
+  const tr = document.createElement('tr');
+  let cells = `<td>${row.label}</td>`;
+  row.data.forEach(([type,label]) => { cells += `<td><span class="pill pill-${type}">${label}</span></td>`; });
+  tr.innerHTML = cells; fitBody.appendChild(tr);
+});
+
+/* ── TESTIMONIALS ── */
+const TESTIMONIALS = [
+  {
+    tool:'cc', src:'reddit', sentiment:'pos',
+    author:'u/turnsout', role:'Senior dev — r/ClaudeCode',
+    avatar:'T', avatarBg:'rgba(124,92,252,0.2)', avatarColor:'#9b7eff',
+    quote:'Everything on GitHub after perhaps June 2025 is as vibe-coded as I can get it to be. I manually review commits before they\'re pushed, but Claude Code handles all the CI/CD tasks autonomously. This "compounding engineering" approach has completely changed how I ship.',
+    detail:'Hacker News, crossposted r/ClaudeCode', upvotes:'312',
+    url:'https://www.aitooldiscovery.com/guides/claude-code-reddit'
+  },
+  {
+    tool:'cc', src:'hn', sentiment:'pos',
+    author:'Developer (HN thread)', role:'Hacker News discussion',
+    avatar:'HN', avatarBg:'rgba(255,102,0,0.15)', avatarColor:'#ff9950',
+    quote:'I was a top 0.01% Cursor user, then switched to Claude Code 2.0. The deal-breaker was cost at heavy usage. Cursor Pro+ at $60/mo kept throttling me. Claude Max at $100/mo feels unlimited.',
+    detail:'blink.new — Cursor vs Claude Code comparison', upvotes:'841',
+    url:'https://blink.new/blog/cursor-vs-claude-code'
+  },
+  {
+    tool:'cc', src:'survey', sentiment:'pos',
+    author:'Developer Survey 2026', role:'tech-insider.org + faros.ai',
+    avatar:'📊', avatarBg:'rgba(124,92,252,0.15)', avatarColor:'#9b7eff',
+    quote:'70% của developer ưu tiên Claude Sonnet 4.6 cho coding tasks. Claude đạt ~95% functional accuracy so với ChatGPT ~85% — nghĩa là cứ 20 task thì Claude tạo thêm 2 solution hoàn chỉnh không cần sửa.',
+    detail:'Survey developer late 2025 / early 2026', upvotes:null,
+    url:'https://tech-insider.org/claude-vs-chatgpt-2026/'
+  },
+  {
+    tool:'cc', src:'reddit', sentiment:'neg',
+    author:'r/ClaudeAI (nhiều user)', role:'r/ClaudeAI — "Claude Is Dead" thread',
+    avatar:'!', avatarBg:'rgba(255,92,92,0.15)', avatarColor:'#ff8080',
+    quote:'Many developers paying $200/mo reported hitting the weekly cap before the end of the working week. After Anthropic added weekly usage caps on August 28, 2025, the backlash was massive — the thread got 841 upvotes.',
+    detail:'r/ClaudeAI — Aug 2025. Anthropic thừa nhận bug và resolve.', upvotes:'841',
+    url:'https://www.aitooldiscovery.com/guides/claude-code-reddit'
+  },
+  {
+    tool:'cur', src:'reddit', sentiment:'pos',
+    author:'r/cursor (nhiều user)', role:'Reddit — r/cursor, r/ChatGPTCoding',
+    avatar:'C', avatarBg:'rgba(0,212,255,0.15)', avatarColor:'#4de4ff',
+    quote:'Cursor remains the most broadly adopted AI coding tool among individual developers and small teams. It\'s often treated as the baseline: even when people prefer other agents, Cursor is still what they compare against.',
+    detail:'faros.ai — Best AI Coding Agents 2026', upvotes:null,
+    url:'https://www.faros.ai/blog/best-ai-coding-agents-2026'
+  },
+  {
+    tool:'cur', src:'hn', sentiment:'neg',
+    author:'Hacker News commenter', role:'Cursor 3 launch — HN discussion',
+    avatar:'HN', avatarBg:'rgba(255,102,0,0.15)', avatarColor:'#ff9950',
+    quote:'Reviewing and testing code, constantly switching contexts, juggling model contexts, coming up with prompt incantations to coax the model into the right direction... is so mentally taxing and full of interruptions that it\'s practically impossible to achieve any sort of flow state.',
+    detail:'infoq.com — Cursor 3 Agent-First Interface', upvotes:'189',
+    url:'https://www.infoq.com/news/2026/04/cursor-3-agent-first-interface/'
+  },
+  {
+    tool:'cur', src:'github', sentiment:'neg',
+    author:'Developer "Theo"', role:'Twitter/X — Cursor 2.1 release',
+    avatar:'T', avatarBg:'rgba(0,212,255,0.15)', avatarColor:'#4de4ff',
+    quote:'The Cursor 2.1 release (Nov 2025) corrupted chat histories and worktrees. Strongly advising against updating. Another developer reported the latest update broke diffing functionality, making the IDE "unusable for days."',
+    detail:'checkthat.ai — Cursor Reviews 2026', upvotes:null,
+    url:'https://checkthat.ai/brands/cursor/reviews'
+  },
+  {
+    tool:'cur', src:'medium', sentiment:'neg',
+    author:'aitoolanalysis.com', role:'Deep review — $29.3B valuation analysis',
+    avatar:'A', avatarBg:'rgba(0,212,255,0.15)', avatarColor:'#4de4ff',
+    quote:'In January 2026, Cursor claimed to "vibe-code" an entire web browser — 3M+ lines of Rust. Then Hacker News looked at it and revealed key components were derived from Servo and other open-source projects, not generated from scratch.',
+    detail:'aitoolanalysis.com — Cursor AI Review 2026', upvotes:null,
+    url:'https://aitoolanalysis.com/cursor-ai-review/'
+  },
+  {
+    tool:'gem', src:'medium', sentiment:'neg',
+    author:'EvoLink (Medium)', role:'Medium — Gemini Rate Limiting Crisis',
+    avatar:'G', avatarBg:'rgba(66,133,244,0.15)', avatarColor:'#6ba3ff',
+    quote:'"I just installed Gemini CLI, haven\'t even started using it seriously, and I\'m already rate limited." — Reddit user. This isn\'t occasional downtime. This is systematic failure that has existed for months.',
+    detail:'medium.com — March 2026 rate limiting crisis', upvotes:null,
+    url:'https://medium.com/@evan-dong/google-gemini-clis-rate-limiting-crisis-when-paying-customers-get-the-same-treatment-as-free-d72148a99648'
+  },
+  {
+    tool:'gem', src:'github', sentiment:'neg',
+    author:'AI Developer Forum (Google)', role:'Google AI Developers Forum — April 2026',
+    avatar:'G', avatarBg:'rgba(66,133,244,0.15)', avatarColor:'#6ba3ff',
+    quote:'I spent significant money to subscribe to Google AI Pro expecting ChatGPT-like availability. What did I get? Almost every time I use Gemini CLI, I end up spending more than two hours repeatedly pressing Ctrl+C, telling the model to continue...',
+    detail:'discuss.ai.google.dev — April 2026', upvotes:null,
+    url:'https://discuss.ai.google.dev/t/complaints-about-gemini-and-its-cli/138109'
+  },
+  {
+    tool:'gem', src:'medium', sentiment:'pos',
+    author:'DataCamp Research', role:'datacamp.com — Gemini vs Claude Code 2026',
+    avatar:'D', avatarBg:'rgba(66,133,244,0.15)', avatarColor:'#6ba3ff',
+    quote:'Many developers in 2026 use Gemini CLI for large-codebase exploration and initial understanding, then switch to Claude Code for production-quality implementation. The tools don\'t conflict — they complement each other.',
+    detail:'datacamp.com — March 2026', upvotes:null,
+    url:'https://www.datacamp.com/blog/gemini-cli-vs-claude-code'
+  },
+  {
+    tool:'cdx', src:'hn', sentiment:'pos',
+    author:'Sam Altman (@sama)', role:'X/Twitter — Feb 2, 2026',
+    avatar:'SA', avatarBg:'rgba(16,163,127,0.15)', avatarColor:'#1ed6a7',
+    quote:'"I built an app with Codex last week. It was very fun. Then I started asking it for ideas for new features and at least a couple of them were better than I was thinking of. I felt a little useless and it was sad."',
+    detail:'X/Twitter @sama — Feb 2, 2026', upvotes:'94K likes',
+    url:'https://www.digit.in/features/general/sam-altman-feels-useless-thanks-to-chatgpt-codex-and-hes-sad-about-it.html'
+  },
+  {
+    tool:'cdx', src:'reddit', sentiment:'mix',
+    author:'Developer community (faros.ai)', role:'Reddit r/ChatGPTCoding analysis',
+    avatar:'C', avatarBg:'rgba(16,163,127,0.15)', avatarColor:'#1ed6a7',
+    quote:'GPT-5.2 is "slow but careful." Developers reach for it when they want correctness, steadiness, and minimal-regret edits on big messy codebases. Common workflow: use Claude to draft, then Codex 5.2 as a tougher reviewer.',
+    detail:'faros.ai — Best AI Models for Coding 2026', upvotes:null,
+    url:'https://www.faros.ai/blog/best-ai-model-for-coding-2026'
+  },
+  {
+    tool:'cdx', src:'reddit', sentiment:'neg',
+    author:'r/ChatGPTCoding users', role:'Reddit — Codex pricing complaints',
+    avatar:'!', avatarBg:'rgba(16,163,127,0.15)', avatarColor:'#1ed6a7',
+    quote:'Codex CLI trên $20 Plus plan có thể cạn kiệt trong 2 session 10 phút. 1M context window chỉ ở plan $200/tháng. Nhiều developer phàn nàn về chi phí và giới hạn không minh bạch.',
+    detail:'faros.ai + murphye.medium.com — March 2026', upvotes:null,
+    url:'https://murphye.medium.com/i-compared-every-major-ai-coding-tool-so-you-dont-have-to-f05a6915c0d4'
+  },
+  {
+    tool:'gpt', src:'survey', sentiment:'mix',
+    author:'Stack Overflow Survey 2025', role:'Stack Overflow Developer Survey',
+    avatar:'SO', avatarBg:'rgba(245,166,35,0.15)', avatarColor:'#ffca6b',
+    quote:'GPT models được sử dụng bởi 81% developers overall, nhưng khi được hỏi về coding quality cụ thể, chỉ có 30% ưu tiên ChatGPT — phần lớn dùng vì ecosystem và quen thuộc, không phải vì chất lượng code.',
+    detail:'Stack Overflow Developer Survey 2025 + nxcode.io', upvotes:null,
+    url:'https://www.nxcode.io/resources/news/claude-vs-chatgpt-2026-which-ai-to-use'
+  },
+  {
+    tool:'gpt', src:'medium', sentiment:'neg',
+    author:'Reviewer (skywork.ai)', role:'ChatGPT Canvas Review 2025',
+    avatar:'C', avatarBg:'rgba(245,166,35,0.15)', avatarColor:'#ffca6b',
+    quote:'"Use Canvas to prototype, then move to Cursor, VS Code, or Replit for depth." Expect context-window limits and occasional truncation on long code generations. Treat any live preview as convenience, not deployment-grade.',
+    detail:'skywork.ai — ChatGPT Canvas Review 2025', upvotes:null,
+    url:'https://skywork.ai/blog/chatgpt-canvas-review-2025-features-coding-pros-cons/'
+  },
+];
+
+const grid = document.getElementById('testimonialGrid');
+function renderTestimonials(filter) {
+  grid.innerHTML = '';
+  TESTIMONIALS.filter(t => filter === 'all' || t.tool === filter).forEach(t => {
+    const srcMap = {
+      reddit:'src-reddit', hn:'src-hn', x:'src-x',
+      medium:'src-medium', github:'src-github', survey:'src-survey'
+    };
+    const srcLabel = { reddit:'Reddit', hn:'Hacker News', x:'X/Twitter', medium:'Medium', github:'GitHub', survey:'Survey' };
+    const sentMap = { pos:'Tích cực', neg:'Tiêu cực', mix:'Hỗn hợp' };
+    const sentClass = { pos:'sent-pos', neg:'sent-neg', mix:'sent-mix' };
+    const el = document.createElement('div');
+    el.className = 'tcard'; el.dataset.tool = t.tool;
+    el.innerHTML = `
+      <div class="tcard-header">
+        <div class="tcard-author">
+          <div class="avatar" style="background:${t.avatarBg};color:${t.avatarColor}">${t.avatar}</div>
+          <div class="author-info">
+            <div class="author-name">${t.author}</div>
+            <div class="author-meta">${t.role}</div>
+          </div>
+        </div>
+        <div class="source-badge ${srcMap[t.src]}">${srcLabel[t.src]}</div>
+      </div>
+      <div class="tcard-quote" style="border-color:${COLORS[t.tool]}40">${t.quote}</div>
+      <div class="tcard-footer">
+        <div class="tcard-tool" style="color:${COLORS[t.tool]};border-color:${COLORS[t.tool]}40">
+          <div class="tcard-tool-dot" style="background:${COLORS[t.tool]}"></div>
+          ${NAMES[t.tool]}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${t.upvotes ? `<span class="upvotes">▲ ${t.upvotes}</span>` : ''}
+          <span class="tcard-sentiment ${sentClass[t.sentiment]}">${sentMap[t.sentiment]}</span>
+        </div>
+      </div>`;
+    if (t.url) el.style.cursor = 'pointer';
+    if (t.url) el.addEventListener('click', () => window.open(t.url, '_blank'));
+    grid.appendChild(el);
+  });
+}
+renderTestimonials('all');
+
+document.getElementById('filterBar').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTestimonials(btn.dataset.filter);
+});
+
+/* ── USE CASES ── */
+const UCS = [
+  {
+    num:'UC1', tool:'cc', color:'#7c5cfc',
+    title:'Claude Code: Production full-stack gần hoàn chỉnh',
+    src:null, srcLabel:null,
+    result:'Hoàn thành 80–90% tính năng, usable ngay. Backend + UI đồng bộ tốt, production-grade. Cả FE lẫn BE đều ổn.',
+    issue:'Hit rate-limit liên tục: window 5h rolling + weekly cap từ Aug 28, 2025. Phải thay đổi giờ làm việc theo policy của Claude — overhead không mong muốn khi deadline gần.',
+    fix:'Chia sprint theo window 5h. Dùng CLAUDE.md để giữ context xuyên session. Batch task nhẹ vào thời điểm quota thấp. Commit checkpoint trước mỗi session.',
+    tags:[['ok','80–90% feature complete'],['ok','BE + UI đồng bộ'],['warn','Hit limit 5h'],['warn','Phải quản lý giờ làm việc']]
+  },
+  {
+    num:'UC2', tool:'cur', color:'#00d4ff',
+    title:'Cursor + Gemini hybrid: Production với UI migration',
+    src:null, srcLabel:null,
+    result:'80–95% tính năng, giao khách hàng dùng thử. Cursor Auto model tiêu tốn ~50% usage/tháng — không hit limit suốt dự án.',
+    issue:'Cursor (Auto + Composer 2) không map được UI khi migrate HTML → NextJS/ReactJS dù đã thử MCP, chuyển đổi HTML, nhờ AI migrate.',
+    fix:'Dùng Gemini Agent migrate design sang ReactJS components. Cursor tiếp tục nối hooks/events/APIs. Hybrid workflow này là pattern hiệu quả nhất trong 3 UC.',
+    tags:[['ok','80–95%'],['ok','Không hit limit'],['warn','UI mapping kém'],['ok','Gemini cứu phần UI'],['ok','Hybrid workflow']]
+  },
+  {
+    num:'UC3', tool:'cdx', color:'#10a37f',
+    title:'Codex: Production, kết quả thấp nhất',
+    src:null, srcLabel:null,
+    result:'60–70% tính năng. Chất lượng code review backend là điểm cộng duy nhất nổi bật.',
+    issue:'Bị cả hai vấn đề cùng lúc: hit limit nhanh như Claude Code + front-end yếu như Cursor. Tổng thời gian cao nhất trong 3 UC.',
+    fix:'Workflow tương tự Cursor nhưng tốn thêm thời gian. Khuyến nghị: dùng Codex cho code review/security audit, không dùng làm primary coding agent.',
+    tags:[['warn','60–70%'],['bad','Hit limit'],['bad','Front-end yếu'],['warn','Tốn thêm thời gian'],['ok','BE code review tốt']]
+  },
+  {
+    num:'UC4 — Cộng đồng', tool:'gem', color:'#4285f4',
+    title:'Gemini CLI: Refactor monorepo lớn + GCP deployment',
+    src:'https://www.datacamp.com/blog/gemini-cli-vs-claude-code', srcLabel:'DataCamp 2026',
+    result:'Xử lý tốt codebase lớn nhờ 1M token context. Đặc biệt với GCP stack — Cloud Run, BigQuery, Firebase native integration.',
+    issue:'Cần hướng dẫn từng bước, ít tự chủ. Rate limit Pro sau 4–15 prompt lớn. March 2026: crisis toàn diện với paying users.',
+    fix:'Dùng Gemini để khám phá và hiểu codebase lớn (plan mode). Switch sang Claude Code cho production implementation. Pattern "Gemini explore → Claude implement" được cộng đồng 2026 dùng phổ biến.',
+    tags:[['ok','1M token context'],['ok','GCP native'],['warn','Cần prompt nhiều hơn'],['bad','Rate limit crisis'],['ok','Tốt cho monorepo']]
+  },
+  {
+    num:'UC5 — Cộng đồng', tool:'gpt', color:'#f5a623',
+    title:'ChatGPT Canvas: Prototype nhỏ, isolated scripts, học lập trình',
+    src:'https://skywork.ai/blog/chatgpt-canvas-review-2025-features-coding-pros-cons/', srcLabel:'skywork.ai 2025',
+    result:'Tốt cho small-to-medium scripts, isolated functions, và giảng dạy. Canvas cho phép edit inline và track version đơn giản.',
+    issue:'Không phù hợp multi-file production. Functional accuracy ~85% (Claude 95%). Context 128K thấp. Không execute code natively.',
+    fix:'Prototype với Canvas → chuyển sang Cursor/Claude Code khi cần multi-file hoặc production deploy. Đừng dùng làm primary coding agent cho dự án thực.',
+    tags:[['ok','Prototype nhanh'],['ok','Canvas UX tốt'],['bad','Không cho production'],['bad','Multi-file kém'],['ok','Tốt cho học lập trình']]
+  },
+  {
+    num:'UC6 — Cộng đồng', tool:'cdx', color:'#10a37f',
+    title:'Codex: GitHub automation + cautious large-repo refactor',
+    src:'https://www.faros.ai/blog/best-ai-model-for-coding-2026', srcLabel:'faros.ai 2026',
+    result:'GPT-5.2 "slow but careful" — ít làm hỏng code hiện có. Tốt cho tricky migrations và messy codebase lớn.',
+    issue:'$20 Plus plan cạn trong 2 session 10 phút. 1M context chỉ ở $200/tháng. Latency xhigh "molasses" theo Reddit.',
+    fix:'Dùng reasoning "xhigh" khi one-shot hard problem. Kết hợp Gemini CLI explore trước. Dùng cho review code cuối pipeline, không phải primary agent.',
+    tags:[['ok','Cautious refactor'],['ok','GitHub integration tốt'],['bad','Limit cực nhanh'],['ok','Tốt cho migrations']]
+  },
+];
+const ucList = document.getElementById('ucList');
+UCS.forEach(uc => {
+  const el = document.createElement('div');
+  el.className = 'uc-card';
+  const tagsHTML = uc.tags.map(([type,lbl]) => `<span class="tag tag-${type}">${lbl}</span>`).join('');
+  el.innerHTML = `
+    <div class="uc-head">
+      <div class="uc-num">${uc.num}</div>
+      <div class="uc-title">${uc.title}</div>
+      ${uc.src ? `<div class="uc-source"><a href="${uc.src}" target="_blank">↗ ${uc.srcLabel}</a></div>` : ''}
+    </div>
+    <div class="uc-body">
+      <div class="uc-col col-result">
+        <div class="uc-col-title">Kết quả</div>
+        <div class="uc-text">${uc.result}</div>
+      </div>
+      <div class="uc-col col-issue">
+        <div class="uc-col-title">Vấn đề gặp phải</div>
+        <div class="uc-text">${uc.issue}</div>
+      </div>
+      <div class="uc-col col-fix">
+        <div class="uc-col-title">Cách xử lý tối ưu</div>
+        <div class="uc-text">${uc.fix}</div>
+        <div class="uc-tags">${tagsHTML}</div>
+      </div>
+    </div>`;
+  ucList.appendChild(el);
+});
+
+/* ── COMBOS ── */
+const COMBOS = [
+  {
+    title:'Production không bị limit (khuyến nghị cao nhất)',
+    flow:[{cls:'cur',l:'Cursor Auto'},{t:'→ trục chính BE/API'},{cls:'gem',l:'Gemini'},{t:'→ UI/Design migration'},{cls:'cc',l:'Claude Code'},{t:'→ critical features khi quota còn'}],
+    note:'Pattern từ UC2 — hiệu quả nhất trong thực tế. Cursor không hit limit, Gemini cứu UI, Claude Code cho feature phức tạp.'
+  },
+  {
+    title:'Monorepo lớn / legacy refactor (cộng đồng 2026)',
+    flow:[{cls:'gem',l:'Gemini CLI'},{t:'1M ctx: explore & plan →'},{cls:'cc',l:'Claude Code'},{t:'→ production implementation'}],
+    note:'Pattern được DataCamp và cộng đồng 2026 đề xuất nhiều nhất. Gemini hiểu, Claude triển khai.'
+  },
+  {
+    title:'GitHub automation + PR review pipeline',
+    flow:[{cls:'cdx',l:'Codex'},{t:'PR bot + merge →'},{cls:'cc',l:'Claude Code'},{t:'→ complex fix / new feature'}],
+    note:'Codex tích hợp chặt GitHub, sandbox an toàn. Claude xử lý bug phức tạp vượt Codex.'
+  },
+  {
+    title:'Prototype → Demo → Production (full pipeline)',
+    flow:[{cls:'gpt',l:'ChatGPT Canvas'},{t:'→'},{cls:'gem',l:'Gemini'},{t:'→ UI'},{cls:'cc',l:'Claude Code'},{t:'→ Production'}],
+    note:'Canvas khởi đầu nhanh. Gemini render UI đúng. Claude Code đẩy lên production. Pipeline hoàn chỉnh từ idea đến ship.'
+  },
+];
+const comboGrid = document.getElementById('comboGrid');
+const chipClass = {cc:'',gem:'',cur:'',cdx:'',gpt:''};
+COMBOS.forEach(c => {
+  const el = document.createElement('div');
+  el.className = 'combo-card';
+  const flowHTML = c.flow.map(f => {
+    if (f.t) return `<span class="combo-arr">${f.t}</span>`;
+    return `<span class="combo-chip" style="background:${COLORS[f.cls]}18;color:${COLORS[f.cls]};border:1px solid ${COLORS[f.cls]}30">${f.l}</span>`;
+  }).join('');
+  el.innerHTML = `<div class="combo-title">${c.title}</div><div class="combo-flow">${flowHTML}</div><div class="combo-note">${c.note}</div>`;
+  comboGrid.appendChild(el);
+});
+</script>
+</body>
+</html>
